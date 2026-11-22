@@ -1,75 +1,107 @@
-# Test‑Driven Development (TDD) Exercise – Strict Naming Convention
+# 🔤 SSD Week 2 Lab: Interfaces in Java & Git Branching
+**Software Systems Development (CRN 12391) · Level 5**  
+**The British College (Leeds Beckett University)**
 
-## Overview
-Students will practice **Test‑Driven Development** in Java while adhering to a **strict naming convention** for packages, classes, and test files. The repository can be **cloned automatically** by clicking the **Start Exercise** badge.
-
-## Repository Structure
 ```
-week1-tdd-exercise/
-├── pom.xml                     # Maven build file (JUnit 5)
-├── README.md                  # This file (you are reading it)
-├── start_exercise.sh          # Script that clones the repo for the student
-├── src/
-│   ├── main/java/vehicles/
-│   │   └── Vehicle.java        # Production stub (empty initially)
-│   └── test/java/vehicles/
-│       └── VehicleTest.java   # Test file (student writes first)
-└── .github/workflows/ci.yml   # GitHub Actions CI workflow
-```
-
-## Naming Convention Rules
-| Element | Required Pattern |
-|---------|-------------------|
-| **Package** | All source files must be under `vehicles` package. Example: `package vehicles;` |
-| **Production Class** | Class name must be **PascalCase** and describe the entity, e.g., `Vehicle`. The file name must match the class name (`Vehicle.java`). |
-| **Test Class** | Test class name must be the production class name followed by `Test`, e.g., `VehicleTest`. File name must be identical (`VehicleTest.java`). |
-| **Test Method** | Method names should be `should<Behavior>` in camelCase, e.g., `shouldAddTwoNumbers`. |
-| **Directory Layout** | `src/main/java/<package>/` for production code, `src/test/java/<package>/` for tests. |
-| **Maven Coordinates** | GroupId: `com.example.tdd`, ArtifactId: `week1-tdd-exercise`. |
-
-## Exercise Flow
-1. **Start the exercise** by clicking the badge below. This runs `start_exercise.sh`, which clones the repo into a fresh directory on your machine.
-2. **Create a feature branch** (e.g., `tdd‑calculator`).
-3. **Write the failing test** in `src/test/java/vehicles/VehicleTest.java` following the naming rules above.
-4. **Commit & push** – the CI workflow will run and **fail** because `Vehicle` is not implemented.
-5. **Implement the `Vehicle` class** in `src/main/java/vehicles/Vehicle.java` so the test passes.
-6. **Commit & push** – CI should now **pass**.
-7. (Optional) Add more tests (e.g., `shouldTurnOnEngine`) and repeat the red‑green‑refactor cycle.
-
----
-### Start Exercise Badge
-[![Open Exercise](https://img.shields.io/badge/Open-Exercise-blue?logo=github)](https://github.com/your-org/week1-tdd-exercise)
-
-> **Note:** This badge links to the public repository in the organization. Students can fork or clone it directly from GitHub.
-
----
-## CI Workflow (`.github/workflows/ci.yml`)
-```yaml
-name: Java CI
-
-on:
-  push:
-    branches: [ "**" ]
-  pull_request:
-    branches: [ main ]
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
-        with:
-          java-version: "17"
-          distribution: "temurin"
-      - name: Build with Maven
-        run: mvn -B test
+Progress: [██████░░░░░░░░░░░░] Step 1 of 3 (In Progress)
 ```
 
 ---
-### Helpful Tips
-- Keep commits small after each TDD step (Red → Green → Refactor) so the CI history shows the transition clearly.
-- Use the naming convention strictly; the CI will fail the build if files are mis‑named (you can add a Maven Checkstyle plugin later to enforce this).
 
-Happy coding!
+## 🎯 Welcome to Week 2: Interfaces & Git Branching!
+
+Welcome! In this hands-on lab, you will master two fundamental software engineering practices:
+1. **Java Interfaces & Polymorphism:** Creating clean, decoupled code by programming to an interface contract.
+2. **Professional Git Branching:** Learning why engineers never commit directly to `main`, and practicing feature branches (`git checkout -b`, `git merge`).
+
+Just like GitHub Skills:
+1. You work on your assigned feature branch.
+2. Merge your completed feature into `main` and push.
+3. GitHub Actions automatically tests your code.
+4. When tests pass, **this README automatically updates to reveal Step 2!**
+
+---
+
+## 🌿 Mandatory Rule: Work in a Feature Branch!
+
+> [!IMPORTANT]
+> **DO NOT commit directly to `main`!**  
+> In modern software teams, direct commits to `main` are restricted. All new features are developed on a separate branch and integrated cleanly once verified.
+
+### 🚀 Git Branching Quick Guide (Follow These Steps):
+
+Open your terminal inside this repository and run:
+
+```bash
+# 1. Ensure you are on main and up to date
+git checkout main
+git pull origin main
+
+# 2. Create and switch to your new feature branch for Step 1
+git checkout -b feature/step1-counter
+
+# Verify which branch you are on (it should show * feature/step1-counter)
+git branch
+```
+
+---
+
+## 📝 Step 1 Task: The `Counter` Interface Contract
+
+Examine [`src/main/java/counter/Counter.java`](src/main/java/counter/Counter.java) in your IDE.
+
+An interface is a **pure contract**. It specifies *what* operations must be provided, without providing the implementation code.
+
+### Your Tasks:
+1. Open [`Counter.java`](src/main/java/counter/Counter.java).
+2. Ensure `Counter` is declared as an interface:
+   ```java
+   public interface Counter {
+       int countWords(String sentence);
+       int countLetters(String sentence);
+       int getLength(String sentence);
+   }
+   ```
+3. Notice that all three methods are implicitly `public` and `abstract`.
+4. Read the Javadoc comments above each method to understand the required behavior.
+
+---
+
+## 🧪 Verify Step 1 Locally
+
+Run the unit tests for Step 1 in your IDE or terminal:
+
+```bash
+mvn test -Dtest=Step1CounterTest
+```
+
+Expected output:
+```
+[INFO] Running counter.Step1CounterTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0
+[INFO] BUILD SUCCESS
+```
+
+---
+
+## 🚀 Commit, Merge & Advance to Step 2
+
+Once your Step 1 tests pass, practice the Git branching workflow to submit your work:
+
+```bash
+# 1. Stage and commit your changes on your feature branch
+git add .
+git commit -m "feat(counter): verify Step 1 Counter interface contract"
+
+# 2. Push your feature branch to GitHub
+git push -u origin feature/step1-counter
+
+# 3. Switch back to main and merge your feature branch
+git checkout main
+git merge feature/step1-counter
+
+# 4. Push main to trigger the autograder!
+git push origin main
+```
+
+> 💡 **Next:** Once pushed to `main`, wait a few seconds, then run `git pull origin main` in your terminal or refresh this page on GitHub to unlock **Step 2: Implement WordProcessor.java**!
