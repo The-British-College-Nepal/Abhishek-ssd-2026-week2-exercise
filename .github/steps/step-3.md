@@ -1,6 +1,6 @@
-# 🔤 SSD Week 2 Lab: Interfaces in Java & Git Branching
+# 🔤 SSD Interactive Lab: Java Interfaces & Decoupled Architecture
 **Software Systems Development (CRN 12391) · Level 5**  
-**The British College (Leeds Beckett University)**
+**The British College (Leeds Beckett University) · Sudan Pudasaini**
 
 ```
 Progress: [██████████████████] Step 3 of 3 (In Progress)
@@ -8,107 +8,114 @@ Progress: [██████████████████] Step 3 of 3 (
 
 ---
 
-## 🎉 Step 2 Completed! Welcome to Step 3
+## ✅ Step 2 Complete! Great job on `WordProcessor.java`!
 
-You have successfully implemented the `Counter` interface in `WordProcessor`. Now, we will add **state encapsulation, null safety, and examine polymorphism**.
+You successfully fulfilled the `Counter` interface contract with string manipulation and character parsing logic.
+
+Now, for the final challenge, you will implement **state encapsulation, defensive null fallback, and explore polymorphic reference types**.
 
 ---
 
-## 🌿 Step 3: Create Your Final Feature Branch
+## 🌿 Step 3 Git Workflow: Create Your Feature Branch
+
+Before writing code for Step 3, switch to a fresh feature branch:
 
 ```bash
-# 1. Pull the latest main
+# 1. Ensure you have the latest updates on main
 git checkout main
 git pull origin main
 
-# 2. Create the Step 3 branch
+# 2. Create and switch to your Step 3 feature branch
 git checkout -b feature/step3-fallback-text
 ```
 
 ---
 
-## 📝 Step 3 Task: Encapsulation & Fallback State
+## 📝 Step 3: Encapsulation & Fallback State
 
-Open [`src/main/java/counter/WordProcessor.java`](src/main/java/counter/WordProcessor.java).
+Open [`src/main/java/counter/WordProcessor.java`](src/main/java/counter/WordProcessor.java) in your IDE.
 
-In practical applications, methods often need sensible fallback defaults when callers pass `null`.
+In robust enterprise software, methods should handle `null` inputs gracefully rather than crashing with a `NullPointerException`. In this step, you will equip `WordProcessor` with a fallback sentence attribute that kicks in whenever a method receives `null`.
 
 ### Your Tasks:
 
 1. **Add Encapsulated Attribute `text`:**
-   * Declare a private field:
+   * In `WordProcessor.java`, declare a private String attribute initialized to an empty string:
      ```java
      private String text = "";
      ```
-   * Enforce encapsulation: it **must** be `private`!
+   * Enforce **encapsulation**: the field must be `private` so external classes cannot mutate it directly without validation.
 
-2. **Implement Getters and Setters:**
-   * `public String getText()` $\rightarrow$ returns `this.text`.
-   * `public void setText(String text)` $\rightarrow$ sets `this.text = text`.
+2. **Add Getters and Setters:**
+   * Provide a getter to read the fallback text:
+     ```java
+     public String getText() {
+         return this.text;
+     }
+     ```
+   * Provide a setter to update the fallback text:
+     ```java
+     public void setText(String text) {
+         this.text = text;
+     }
+     ```
 
-3. **Implement Null Fallback Behavior:**
-   * At the top of `countWords`, `countLetters`, and `getLength`, check if `sentence == null`.
-   * If `sentence == null`, reassign it to the fallback:
+3. **Implement Null Fallback in Counting Methods:**
+   * At the beginning of `countWords`, `countLetters`, and `getLength`, check if `sentence == null`:
      ```java
      if (sentence == null) {
          sentence = this.text;
      }
      ```
-   * If a non-null string is passed, the method evaluates that string normally.
+   * If a caller passes `null`, the method analyzes `this.text`.
+   * If a caller passes a non-null string, the method analyzes that string normally.
 
-4. **Run `Driver.java` to test polymorphism:**
-   Open [`src/main/java/counter/Driver.java`](src/main/java/counter/Driver.java) and run it!
-   * Notice line 18:
+4. **Run and Inspect `Driver.java`:**
+   Open [`src/main/java/counter/Driver.java`](src/main/java/counter/Driver.java) and run the `main()` method.
+   * Notice the difference between the two declarations:
      ```java
+     // Call 1: Polymorphic assignment to the interface type
      Counter wp = new WordProcessor();
-     ```
-     This is **Polymorphism**: the variable is typed as `Counter`, but instantiated as `WordProcessor`.
-   * Notice line 29:
-     ```java
+     
+     // Call 2: Concrete type declaration
      WordProcessor wp2 = new WordProcessor();
-     wp2.setText("The British College Kathmandu Nepal");
+     wp2.setText("Default text");
      ```
-     Why can we not call `wp.setText()` on line 18? Because `setText()` is specific to `WordProcessor` and is not part of the `Counter` interface contract!
+   * **Reflection Question:** Why could we NOT call `wp.setText(...)` on line 1?  
+     *Answer:* Because `setText()` is a specific method on `WordProcessor`, not part of the `Counter` interface contract. Programming to the interface (`Counter`) hides implementation-specific details!
 
 ---
 
-## 🧪 Verify Step 3 Locally
+## 🧪 How to Verify Step 3 Locally
 
-Run all unit tests across the entire suite:
+Run all unit tests across the entire project:
 
 ```bash
 mvn test
 ```
+*(Or right-click the `src/test/java` folder in your IDE and select **Run 'All Tests'**).*
 
-Expected output:
-```
-[INFO] Running counter.Step1CounterTest
-[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0
-[INFO] Running counter.Step2WordProcessorTest
-[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0
-[INFO] Running counter.Step3FallbackTest
-[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0
-[INFO] BUILD SUCCESS
-```
+All **16 unit tests** across `Step1CounterTest`, `Step2WordProcessorTest`, and `Step3FallbackTest` should pass with green checkmarks!
 
 ---
 
-## 🚀 Commit, Merge & Finish the Lab!
+## 🚀 How to Finish the Lab
+
+Once all 16 tests pass locally:
 
 ```bash
-# 1. Commit your changes on feature/step3-fallback-text
+# 1. Stage and commit on your feature branch
 git add src/main/java/counter/WordProcessor.java
-git commit -m "feat(wordprocessor): add fallback state encapsulation and null handling"
+git commit -m "Step 3: Completed fallback state encapsulation and null handling"
 
-# 2. Push your feature branch
-git push -u origin feature/step3-fallback-text
-
-# 3. Merge into main
+# 2. Switch back to main and merge your feature branch
 git checkout main
 git merge feature/step3-fallback-text
 
-# 4. Push main to claim your completion badge!
+# 3. Push main to claim your completion badge!
 git push origin main
 ```
 
-> 💡 **Next:** Run `git pull origin main` to see your final **Completion Badge**!
+> [!TIP]
+> After pushing, wait ~15 seconds and refresh this page on GitHub (or run `git pull` locally).  
+> GitHub Actions will verify your entire lab and grant you the **Week 2 Exercise Completion Badge**!

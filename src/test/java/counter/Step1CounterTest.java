@@ -20,49 +20,55 @@ public class Step1CounterTest {
 
     @Test
     @DisplayName("Counter declares countWords(String) returning int")
-    void testCountWordsDeclaration() throws NoSuchMethodException {
-        Method method = Counter.class.getMethod("countWords", String.class);
-        assertEquals(int.class, method.getReturnType(),
-                "countWords(String) must return an int");
-        assertTrue(Modifier.isPublic(method.getModifiers()),
-                "countWords(String) must be public");
+    void testCountWordsDeclaration() {
+        try {
+            Method method = Counter.class.getMethod("countWords", String.class);
+            assertEquals(int.class, method.getReturnType(),
+                    "countWords(String) must return an int");
+            assertTrue(Modifier.isPublic(method.getModifiers()),
+                    "countWords(String) must be public");
+        } catch (NoSuchMethodException e) {
+            fail("Counter interface must declare: int countWords(String sentence);");
+        }
     }
 
     @Test
     @DisplayName("Counter declares countLetters(String) returning int")
-    void testCountLettersDeclaration() throws NoSuchMethodException {
-        Method method = Counter.class.getMethod("countLetters", String.class);
-        assertEquals(int.class, method.getReturnType(),
-                "countLetters(String) must return an int");
-        assertTrue(Modifier.isPublic(method.getModifiers()),
-                "countLetters(String) must be public");
+    void testCountLettersDeclaration() {
+        try {
+            Method method = Counter.class.getMethod("countLetters", String.class);
+            assertEquals(int.class, method.getReturnType(),
+                    "countLetters(String) must return an int");
+            assertTrue(Modifier.isPublic(method.getModifiers()),
+                    "countLetters(String) must be public");
+        } catch (NoSuchMethodException e) {
+            fail("Counter interface must declare: int countLetters(String sentence);");
+        }
     }
 
     @Test
     @DisplayName("Counter declares getLength(String) returning int")
-    void testGetLengthDeclaration() throws NoSuchMethodException {
-        Method method = Counter.class.getMethod("getLength", String.class);
-        assertEquals(int.class, method.getReturnType(),
-                "getLength(String) must return an int");
-        assertTrue(Modifier.isPublic(method.getModifiers()),
-                "getLength(String) must be public");
+    void testGetLengthDeclaration() {
+        try {
+            Method method = Counter.class.getMethod("getLength", String.class);
+            assertEquals(int.class, method.getReturnType(),
+                    "getLength(String) must return an int");
+            assertTrue(Modifier.isPublic(method.getModifiers()),
+                    "getLength(String) must be public");
+        } catch (NoSuchMethodException e) {
+            fail("Counter interface must declare: int getLength(String sentence);");
+        }
     }
 
     @Test
-    @DisplayName("Counter can be used as a polymorphic contract type")
+    @DisplayName("Counter can be implemented as a polymorphic contract type")
     void testPolymorphicContract() {
-        // Verify that Counter can be implemented anonymously
-        Counter dummy = new Counter() {
-            @Override
-            public int countWords(String s) { return 3; }
-            @Override
-            public int countLetters(String s) { return 10; }
-            @Override
-            public int getLength(String s) { return 15; }
-        };
-
-        assertEquals(3, dummy.countWords("test"));
-        assertEquals(10, dummy.countLetters("test"));
-        assertEquals(15, dummy.getLength("test"));
+        try {
+            Counter.class.getMethod("countWords", String.class);
+            Counter.class.getMethod("countLetters", String.class);
+            Counter.class.getMethod("getLength", String.class);
+        } catch (NoSuchMethodException e) {
+            fail("Cannot verify polymorphic contract until all three methods are declared in Counter: countWords, countLetters, getLength");
+        }
     }
 }
